@@ -1,0 +1,28 @@
+---
+title: "Intro Econometrics"
+format: html
+editor: visual
+---
+
+```{r}
+#| label:setup
+library(flextable)
+options(
+  paged.print = FALSE,
+  digits = 3
+  )
+```
+
+```{r}
+# Sample size
+n <- 5
+set.seed(94665)
+
+# Generate data
+data.frame(
+  i = 1:n,
+  x = sample(1:10, n) # draw integers
+) |> 
+  as_flextable()
+```
+
