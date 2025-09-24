@@ -21,7 +21,17 @@ set.seed(94665)
 # Generate data
 data.frame(
   i = 1:n,
-  x = sample(1:10, n) # draw integers
+  x = sample(1:10, size = n, replace = TRUE) # draw integers
+) |> 
+  as_flextable()
+```
+
+
+# Summering
+```{r}
+data.frame(
+  i = 1:4,
+  x = c(7, 4, 10, 2)
 ) |> 
   as_flextable()
 ```
