@@ -36,3 +36,53 @@ data.frame(
   as_flextable()
 ```
 
+```{r}
+tibble(
+  i = 1:4,
+  c = c(2, 2, 2, 2)
+) |> 
+  as_flextable()
+```
+
+
+```{r}
+data.frame(
+  i = 1:3,
+  c = c(2, 2, 2),
+  x_i = c(7, 4, 10) 
+  ) |> 
+  as_flextable()
+```
+
+
+```{r}
+df <- data.frame(
+  i = 1:2,
+  a = c(2, 2),
+  x_i = c(7, 4),
+  b = c(1, 1),
+  y_i = c(4, 2)
+)
+
+df |> 
+  as_flextable()
+```
+
+
+# Normalfordelingen
+
+```{r}
+df <- tibble(x = seq(-4, 4, 0.01), y = dnorm(x)) %>%
+  rbind(., tibble(x = seq(4, -4, -0.01), y = 0))
+ggplot() +
+  scale_x_continuous(limits = c(-4, 4), expand=c(0,0)) +
+  scale_y_continuous(limits = c(0, 0.5), expand=c(0,0), breaks = c(0, 0.5), labels = c(0, 0.5)) +
+  geom_polygon(data = df, aes(x, y), fill = "grey85") +
+  geom_polygon(data = df %>% filter(x <= qnorm(0.5 + 0.475) & x >= qnorm(0.5 - 0.475)), aes(x, y), fill = hvl_orang) +
+  geom_vline(xintercept = qnorm(0.5 + 0.475), size = 0.35, linetype = "dashed", color = met_slate) +
+  geom_vline(xintercept = qnorm(0.5 - 0.475), size = 0.35, linetype = "dashed", color = met_slate) +
+  theme_simple +
+  xlab(expression(X)) + 
+  ylab("Density")
+```
+

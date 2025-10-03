@@ -1,0 +1,91 @@
+---
+title: "explatory data analysis"
+format: html
+editor: visual
+---
+
+## Exploratory data analysis
+
+```{r}
+library(tidyverse)
+library(nycflights13)
+library(gridExtra)
+library(modelr)
+library(grid)
+library(ggplotify)
+library(vtable)
+library(flextable)
+#| label:setup
+#| paged.print: false
+#| label: tbl-descStat
+#| tbl-cap: Descriptive statistics for the heights dataset
+```
+
+
+
+```{r}
+# create a bib file for the R packages 
+# used in this document
+# Note! Needs to do a touch(eda.bib) in terminal before first run
+# else stops when bibliography: "eda.bib" not found in YAML
+packs <- c("tidyverse", "nycflights13", "gridExtra",
+           "modelr", "grid", "ggplotify", "vtable", "flextable")
+knitr::write_bib(
+  packs,
+  file = "eda.bib"
+  )
+rm(packs)
+```
+
+```{r}
+heights <- modelr::heights
+```
+
+```{r}
+my_heights <- modelr::heights
+```
+
+```{r}
+# NAs in my_heights?
+my_heights %>% 
+  apply(MARGIN = 2, FUN = is.na) %>% 
+  apply(MARGIN = 2, FUN = sum) |> 
+  print(width = 40)
+```
+
+
+```{r}
+# package vtable must 
+# be installed
+my_heights %>% 
+  select(marital, sex) %>% 
+  vtable::st(
+    data = ., 
+    out = "return"
+    ) |> 
+  as_flextable()
+```
+
+
+```{r}
+# package vtable 
+# must be installed
+my_heights %>% 
+  select(
+    -marital, 
+    -sex
+    ) %>% 
+  # . to stop RStudio 
+  # complaining about 
+  # no data
+  vtable::st(data = ., out = "return") |> 
+  as_flextable(
+show_coltype = FALSE,
+max_row = 20
+  ) |> 
+line_spacing(space = 0.3) |> 
+delete_part("footer") |> 
+theme_booktabs()
+```
+
+As seen in @tbl-descStat bla bla...
